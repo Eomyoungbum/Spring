@@ -1,7 +1,7 @@
 package com.coderby.myapp.hello.service;
 
-public class HelloService {
+public interface IDAO {
 
-	
+	void getMessage();
 	
 }
