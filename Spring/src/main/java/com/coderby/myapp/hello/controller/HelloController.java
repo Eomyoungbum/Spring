@@ -17,8 +17,4 @@ public class HelloController {
 		dao.getMessage();
 	}
 	
-	public static void main(String[] args) {
-		System.out.println("이거때문에 에러?");
-	}
-	
 }

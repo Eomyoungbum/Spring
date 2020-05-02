@@ -8,7 +8,6 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 <context:component-scan base-package="com.coderby.myapp"></context:component-scan>
-<bean id="helloTime" class="com.coderby.myapp.hello.util.HelloTime"></bean>
 <aop:config>
 	<aop:pointcut expression="within(com..IDAO+)" id="hello"/>
 	<aop:aspect ref="helloTime">
