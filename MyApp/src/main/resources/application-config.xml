@@ -12,7 +12,24 @@
 <context:component-scan base-package="com.coderby.myapp"/>
 <aop:aspectj-autoproxy/>
 
-<context:property-placeholder location="classpath:db/jdbc.properties"/>
+<bean id="propertyConfigurer" class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
+	<constructor-arg ref="configurationEncryptor" />
+	<property name="locations">
+		<list>
+			<value>classpath:/db/jdbc.properties</value>
+		</list>
+	</property>
+</bean>
+
+<bean id="environmentVariableConfiguration" class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+	<property name="algorithm" value="PBEWithMD5AndDES"/>
+	<property name="passwordEnvName" value="APP_ENCRYPTION_PASSWORD"/>
+</bean>
+
+<bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+	<property name="config" ref="environmentVariableConfiguration" />
+	<property name="password" value="djadudqja" />
+</bean>
 
 <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 	<property name="driverClassName" value="${jdbc.driverClassName}"/>
@@ -30,16 +47,6 @@
 	<property name="dataSource" ref="dataSource"/>
 </bean>
 
-<tx:advice id="txAdvice" transaction-manager="txManager">
-	<tx:attributes>
-		<tx:method name="get*" read-only="true" />
-		<tx:method name="*" />
-	</tx:attributes>
-</tx:advice>
-<aop:config>
-	<aop:pointcut id="txPointcut"
-		expression="execution(* com.coderby.myapp..*Service.*teEmp(..))" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
-</aop:config>
+<tx:annotation-driven transaction-manager="txManager"/>
 
 </beans>

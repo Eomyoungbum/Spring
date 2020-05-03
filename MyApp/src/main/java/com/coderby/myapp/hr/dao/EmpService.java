@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.coderby.myapp.hr.model.EmpVO;
 
@@ -36,6 +37,7 @@ public class EmpService implements IEmpService{
 	}
 
 	@Override
+	@Transactional(value="txManager")
 	public void updateEmp(EmpVO emp) {
 		empRepository.deleteJobHistory(emp.getEmployeeId());
 		empRepository.updateEmp(emp);
@@ -47,6 +49,7 @@ public class EmpService implements IEmpService{
 	}
 
 	@Override
+	@Transactional("txManager")
 	public void deleteEmp(int empId) {
 		empRepository.deleteJobHistory(empId);
 		empRepository.deleteEmp(empId);
