@@ -10,7 +10,6 @@ import com.coderby.myapp.util.PropertyEnc;
 public class EmpMain {
 
 	public static void main(String[] args) {
-		PropertyEnc.writeProperties();
 		AbstractApplicationContext context = 
 				new GenericXmlApplicationContext("application-config.xml");
 		IEmpService empService = context.getBean("empService", IEmpService.class);

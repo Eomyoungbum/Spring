@@ -4,15 +4,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PropertyEnc {
-
-	public static void writeProperties() {
+	
+	static {
 		StandardPBEStringEncryptor enc = new StandardPBEStringEncryptor();
 		enc.setPassword("djadudqja");
 		FileWriter fw = null;
 		try {
-			fw = new FileWriter("src/main/resources/db/jdbc.properties");
+			fw = new FileWriter(new ClassPathResource("db/jdbc.properties").getURI().getPath());
 			fw.write("jdbc.driverClassName=net.sf.log4jdbc.DriverSpy\n");
 			fw.write("jdbc.url=ENC("+enc.encrypt("jdbc:log4jdbc:oracle:thin:@localhost:1521/xepdb1")+")\n");
 			fw.write("jdbc.username=ENC("+enc.encrypt("hr")+")\n");

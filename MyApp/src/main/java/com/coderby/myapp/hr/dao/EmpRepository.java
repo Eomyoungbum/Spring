@@ -10,13 +10,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.coderby.myapp.hr.model.EmpDetailVO;
 import com.coderby.myapp.hr.model.EmpVO;
+import com.coderby.myapp.util.PropertyEnc;
 
 @Repository
 public class EmpRepository implements IEmpRepository {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	PropertyEnc propertyEnc;
 	
 	private class EmpMapper implements RowMapper<EmpVO>{
 		public EmpVO mapRow(ResultSet rs, int count) throws SQLException {
@@ -56,8 +61,40 @@ public class EmpRepository implements IEmpRepository {
 
 	@Override
 	public EmpVO getEmpInfo(int empId) {
-		String sql = "select * from employees where employee_id=?";
-		return jdbcTemplate.queryForObject(sql, new EmpMapper(), empId);
+		String sql = "select emp.employee_id, first_name, last_name,"
+				+ "email, phone_number, hire_date, emp.job_id,"
+				+ "job_title, salary, commission_pct, emp.manager_id,"
+				+ "manager_name, emp.department_id, department_name from employees emp "
+				+ "left join jobs job "
+				+ "on emp.job_id=job.job_id "
+				+ "left join departments dept "
+				+ "on emp.department_id=dept.department_id "
+				+ "left join "
+				+ "(select employee_id, first_name||' '||last_name as manager_name "
+				+ "from employees where employee_id in"
+				+ "(select distinct manager_id from employees)) man "
+				+ "on emp.manager_id=man.employee_id "
+				+ "where emp.employee_id=?";
+		return jdbcTemplate.queryForObject(sql, new EmpMapper() {
+			public EmpDetailVO mapRow(ResultSet rs, int count) throws SQLException {
+				EmpDetailVO emp = new EmpDetailVO();
+				emp.setEmployeeId(rs.getInt("employee_id"));
+				emp.setFirstName(rs.getString("first_name"));
+				emp.setLastName(rs.getString("last_name"));
+				emp.setEmail(rs.getString(4));
+				emp.setPhoneNumber(rs.getString(5));
+				emp.setHireDate(rs.getDate(6));
+				emp.setJobId(rs.getString(7));
+				emp.setJobTitle(rs.getString(8));
+				emp.setSalary(rs.getDouble(9));
+				emp.setCommissionPct(rs.getDouble(10));
+				emp.setManagerId(rs.getInt(11));
+				emp.setManagerName(rs.getString(12));
+				emp.setDepartmentId(rs.getInt(13));
+				emp.setDepartmentName(rs.getString(14));
+				return emp;
+			}
+		}, empId);
 	}
 
 	@Override
@@ -77,11 +114,11 @@ public class EmpRepository implements IEmpRepository {
 	public void insertEmp(EmpVO emp) {
 		String sql = "insert into employees "
 				+ "values(?,?,?,?,?,sysdate,?,?,?,?,?)";
-		jdbcTemplate.update(sql,emp.getFirstName(),
-				emp.getLastName(),emp.getEmail(),emp.getPhoneNumber(),
-				emp.getHireDate(),emp.getJobId(),emp.getSalary(),
-				emp.getCommissionPct(),emp.getManagerId(),emp.getDepartmentId(),
-				emp.getEmployeeId());
+		jdbcTemplate.update(sql,emp.getEmployeeId(),
+				emp.getFirstName(),emp.getLastName(),emp.getEmail(),
+				emp.getPhoneNumber(),emp.getJobId(),emp.getSalary(),
+				emp.getCommissionPct(),emp.getManagerId(),emp.getDepartmentId()
+				);
 	}
 
 	@Override
