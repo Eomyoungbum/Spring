@@ -40,6 +40,7 @@ public class EmpService implements IEmpService{
 	@Transactional(value="txManager")
 	public void updateEmp(EmpVO emp) {
 		empRepository.deleteJobHistory(emp.getEmployeeId());
+		empRepository.updateManagers(emp.getEmployeeId());
 		empRepository.updateEmp(emp);
 	}
 
@@ -52,6 +53,7 @@ public class EmpService implements IEmpService{
 	@Transactional("txManager")
 	public void deleteEmp(int empId) {
 		empRepository.deleteJobHistory(empId);
+		empRepository.updateManagers(empId);
 		empRepository.deleteEmp(empId);
 	}
 
@@ -75,6 +77,25 @@ public class EmpService implements IEmpService{
 		return empRepository.getAllManagerId();
 	}
 
-	
+	@Override
+	public void updateManagers(int empId) {
+		empRepository.updateManagers(empId);
+	}
+
+	@Override
+	public List<EmpVO> getEmpListByName(String name) {
+		return empRepository.getEmpListByName(name);
+	}
+
+	@Override
+	public List<EmpVO> getEmpByMaxSalary() {
+		return empRepository.getEmpByMaxSalary();
+	}
+
+	@Override
+	public List<Map<String, Object>> getUpdateCount(int empId) {
+		return empRepository.getUpdateCount(empId);
+	}
+
 	
 }

@@ -15,8 +15,11 @@ public interface IEmpService {
 	void insertEmp(EmpVO emp);
 	void deleteEmp(int empId);
 	void deleteJobHistory(int empId);
+	void updateManagers(int empId);
+	List<EmpVO> getEmpListByName(String name);
 	List<Map<String,Object>> getAllDeptId();
 	List<Map<String,Object>> getAllJobId();
 	List<Map<String,Object>> getAllManagerId();
-	
+	List<EmpVO> getEmpByMaxSalary();
+	List<Map<String, Object>> getUpdateCount(int empId);
 }

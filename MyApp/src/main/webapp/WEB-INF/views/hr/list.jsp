@@ -9,7 +9,7 @@
 </head>
 <body>
 <h1>사원 목록</h1>
-<a href="hr/insert">사원 정보 입력</a>
+<a href="insert">사원 정보 입력</a>
 <table border=1>
 <tr>
 	<th>Employee_id</th>
@@ -26,7 +26,7 @@
 </tr>
 <c:forEach var="emp" items="${empList}">
 <tr>
-	<td><a href="hr/${emp.employeeId}">${emp.employeeId}</a></td>
+	<td><a href="${emp.employeeId}">${emp.employeeId}</a></td>
 	<td>${emp.firstName}</td>
 	<td>${emp.lastName}</td>
 	<td>${emp.email}</td>

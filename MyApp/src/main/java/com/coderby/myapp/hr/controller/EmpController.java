@@ -35,7 +35,7 @@ public class EmpController {
 		return "hr/count";
 	}
 
-	@RequestMapping(value= {"hr","/hr/list"})
+	@RequestMapping(value="/hr/list")
 	public String getAllEmployees(Model model) {
 		List<EmpVO> empList = empService.getEmpList();
 		model.addAttribute("empList",empList);
@@ -61,7 +61,7 @@ public class EmpController {
 	@PostMapping(value="/hr/insert")
 	public String insertEmp(EmpVO emp, Model model) {
 		empService.insertEmp(emp);
-		return "redirect:/hr";
+		return "redirect:/hr/index";
 	}
 
 	@GetMapping(value="/hr/update")
@@ -83,14 +83,32 @@ public class EmpController {
 	@GetMapping(value="/hr/delete")
 	public String deleteEmp(int empId, Model model) {
 		model.addAttribute("emp",empService.getEmpInfo(empId));
+		model.addAttribute("count",empService.getUpdateCount(empId));
 		return "hr/deleteform";
 	}
-
+	
+	@PostMapping(value="/hr/delete")
+	public String deleteEmp(Model model, int empId) {
+		empService.deleteEmp(empId);
+		return "redirect:/hr/index";
+	}
+	
 	@ExceptionHandler(RuntimeException.class)
 	public String runtimeException(HttpServletRequest request, Exception ex, Model model) {
 		model.addAttribute("url", request.getRequestURI());
 		model.addAttribute("exception", ex);
 		return "error/runtime";
+	}
+	
+	@RequestMapping({"/hr/index","hr"})
+	public String getMain() {
+		return "hr/index";
+	}
+	
+	@GetMapping(value="/hr/getMaxSalary")
+	public String getMaxSalaryByDept(Model model) {
+		model.addAttribute("empList",empService.getEmpByMaxSalary());
+		return "hr/list";
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.coderby.myapp.hr.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -155,6 +156,35 @@ public class EmpRepository implements IEmpRepository {
 				+ "where employee_id in "
 				+ "(select distinct manager_id from employees)";
 		return jdbcTemplate.queryForList(sql);
+	}
+
+	@Override
+	public void updateManagers(int empId) {
+		String sql = "update (select * from employees where manager_id=?) set manager_id=null";
+		jdbcTemplate.update(sql,empId);
+		sql = "update (select * from departments where manager_id=?) set manager_id=null";
+		jdbcTemplate.update(sql,empId);
+	}
+
+	@Override
+	public List<EmpVO> getEmpListByName(String name) {
+		String sql = "select * from employees where first_name like '%"+name+"%'";
+		return jdbcTemplate.query(sql, new EmpMapper());
+	}
+
+	@Override
+	public List<EmpVO> getEmpByMaxSalary() {
+		String sql = "select * from employees where "
+				+ "(department_id, salary) in (select department_id, max(salary) from "
+				+ "employees group by department_id)";
+		return jdbcTemplate.query(sql, new EmpMapper());
+	}
+
+	@Override
+	public List<Map<String, Object>> getUpdateCount(int empId) {
+		String sql = "select (select count(*) from employees where manager_id=?) as empCount,"
+				+ "(select count(*) from departments where manager_id=?) as deptCount from dual";
+		return jdbcTemplate.queryForList(sql, empId, empId);
 	}
 
 }
