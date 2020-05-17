@@ -40,7 +40,6 @@ public class EmpService implements IEmpService{
 	@Transactional(value="txManager")
 	public void updateEmp(EmpVO emp) {
 		empRepository.deleteJobHistory(emp.getEmployeeId());
-		empRepository.updateManagers(emp.getEmployeeId());
 		empRepository.updateEmp(emp);
 	}
 
@@ -93,7 +92,7 @@ public class EmpService implements IEmpService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getUpdateCount(int empId) {
+	public Map<String, Integer> getUpdateCount(int empId) {
 		return empRepository.getUpdateCount(empId);
 	}
 

@@ -181,10 +181,18 @@ public class EmpRepository implements IEmpRepository {
 	}
 
 	@Override
-	public List<Map<String, Object>> getUpdateCount(int empId) {
+	public Map<String, Integer> getUpdateCount(int empId) {
 		String sql = "select (select count(*) from employees where manager_id=?) as empCount,"
 				+ "(select count(*) from departments where manager_id=?) as deptCount from dual";
-		return jdbcTemplate.queryForList(sql, empId, empId);
+		return jdbcTemplate.queryForObject(sql, new RowMapper<Map<String,Integer>>(){
+			@Override
+			public Map<String, Integer> mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Map<String,Integer> count = new HashMap<String,Integer>();
+				count.put("empCount", rs.getInt(1));
+				count.put("deptCount", rs.getInt(2));
+				return count;
+			}
+		} ,empId, empId);
 	}
 
 }

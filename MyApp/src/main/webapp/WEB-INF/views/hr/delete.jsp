@@ -10,10 +10,8 @@
 <body>
 <br>
 삭제하려는 ${emp.firstName} ${emp.lastName}은 <br>
-<c:forEach var="count" items="${count}">
 <h3>${count.empCount}</h3>명의 매니저이고 <br>
 <h3>${count.deptCount}</h3>개의 부서를 책임지고 있습니다.<br>
-</c:forEach>
 <h3>정말 삭제하시겠습니까?</h3>
 <form action="delete" method=post>
 <input type=hidden name=empId value="${emp.employeeId}">

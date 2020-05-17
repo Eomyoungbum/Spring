@@ -21,5 +21,5 @@ public interface IEmpService {
 	List<Map<String,Object>> getAllJobId();
 	List<Map<String,Object>> getAllManagerId();
 	List<EmpVO> getEmpByMaxSalary();
-	List<Map<String, Object>> getUpdateCount(int empId);
+	Map<String, Integer> getUpdateCount(int empId);
 }

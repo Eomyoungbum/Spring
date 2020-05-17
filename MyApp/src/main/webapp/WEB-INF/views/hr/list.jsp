@@ -9,6 +9,8 @@
 </head>
 <body>
 <h1>사원 목록</h1>
+${message}
+<br>
 <a href="insert">사원 정보 입력</a>
 <table border=1>
 <tr>

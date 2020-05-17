@@ -12,6 +12,7 @@
 <context:component-scan base-package="com.coderby.myapp"/>
 <aop:aspectj-autoproxy/>
 
+
 <bean id="propertyConfigurer" class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
 	<constructor-arg ref="configurationEncryptor" />
 	<property name="locations">
