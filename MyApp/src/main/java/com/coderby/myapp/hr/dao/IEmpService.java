@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.coderby.myapp.hr.model.EmpVO;
+import com.coderby.myapp.hr.model.JobVO;
 
 public interface IEmpService {
 
@@ -18,7 +19,7 @@ public interface IEmpService {
 	void updateManagers(int empId);
 	List<EmpVO> getEmpListByName(String name);
 	List<Map<String,Object>> getAllDeptId();
-	List<Map<String,Object>> getAllJobId();
+	List<JobVO> getAllJobId();
 	List<Map<String,Object>> getAllManagerId();
 	List<EmpVO> getEmpByMaxSalary();
 	Map<String, Integer> getUpdateCount(int empId);

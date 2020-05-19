@@ -5,6 +5,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 import com.coderby.myapp.hr.dao.IEmpService;
+import com.coderby.myapp.hr.model.JobVO;
 import com.coderby.myapp.util.PropertyEnc;
 
 public class EmpMain {
@@ -18,6 +19,7 @@ public class EmpMain {
 		System.out.println(empService.getEmpList());
 		System.out.println(empService.getAllManagerId());
 		empService.updateEmp(empService.getEmpInfo(108));
+		System.out.println(new JobVO());
 		context.close();
 	}
 

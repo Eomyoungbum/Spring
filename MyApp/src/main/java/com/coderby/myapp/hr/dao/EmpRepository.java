@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.coderby.myapp.hr.model.EmpDetailVO;
 import com.coderby.myapp.hr.model.EmpVO;
+import com.coderby.myapp.hr.model.JobVO;
 import com.coderby.myapp.util.PropertyEnc;
 
 @Repository
@@ -142,10 +143,18 @@ public class EmpRepository implements IEmpRepository {
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllJobId() {
+	public List<JobVO> getAllJobId() {
 		String sql = "select job_id as jobId, job_title as jobTitle "
 				+ "from jobs";
-		return jdbcTemplate.queryForList(sql);
+		return jdbcTemplate.query(sql, new RowMapper<JobVO>() {
+			@Override
+			public JobVO mapRow(ResultSet rs, int rowNum) throws SQLException {
+				JobVO job = new JobVO();
+				job.setJobId(rs.getString(1));
+				job.setJobTitle(rs.getString(2));
+				return job;
+			}
+		});
 	}
 
 	@Override

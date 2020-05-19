@@ -114,9 +114,7 @@
 <tr>
 	<th>Job_id</th>
 	<td><form:select path="jobId">
-		<c:forEach var="job" items="${jobList}">
-			<option value="${job.jobId}">${job.jobTitle}</option>
-		</c:forEach>
+		<form:options items="${jobList}" itemLabel="jobTitle" itemValue="jobId" />
 	</form:select></td>
 </tr>
 <tr>

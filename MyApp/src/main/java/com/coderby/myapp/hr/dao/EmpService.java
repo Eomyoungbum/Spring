@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.coderby.myapp.hr.model.EmpVO;
+import com.coderby.myapp.hr.model.JobVO;
 
 @Service
 public class EmpService implements IEmpService{
@@ -67,7 +68,7 @@ public class EmpService implements IEmpService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllJobId() {
+	public List<JobVO> getAllJobId() {
 		return empRepository.getAllJobId();
 	}
 

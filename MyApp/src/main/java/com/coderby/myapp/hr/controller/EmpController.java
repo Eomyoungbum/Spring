@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,13 +24,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.coderby.myapp.hr.dao.IEmpService;
 import com.coderby.myapp.hr.model.EmpDetailVO;
 import com.coderby.myapp.hr.model.EmpVO;
+import com.coderby.myapp.util.EmpValidator;
 
 @Controller
 public class EmpController {
 
 	@Autowired
 	IEmpService empService;
-
+	
 	@RequestMapping("/hr/count")
 	public String empCount(@RequestParam(value="deptId", required=false, defaultValue="0")
 	int deptId, Model model) {
@@ -65,9 +68,6 @@ public class EmpController {
 
 	@PostMapping(value="/hr/insert")
 	public String insertEmp(@ModelAttribute("emp") @Valid EmpVO emp, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
-		System.out.println(result.getErrorCount());
-		System.out.println(result.getTarget());
-		System.out.println(result.getAllErrors());
 		if(result.hasErrors()) {
 			model.addAttribute("jobList",empService.getAllJobId());
 			model.addAttribute("manList",empService.getAllManagerId());
@@ -75,12 +75,8 @@ public class EmpController {
 			model.addAttribute("message","insert");
 			return "hr/insert";
 		}
-		try {
 			empService.insertEmp(emp);
 			redirectAttributes.addFlashAttribute("message", "회원 저장 완료");
-		}catch(RuntimeException e) {
-			redirectAttributes.addFlashAttribute("message", e.getMessage());
-		}
 		return "redirect:/hr/list";
 	}
 

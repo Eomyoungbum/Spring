@@ -1,40 +1,31 @@
 package com.coderby.myapp.hr.model;
 
 import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
-
 
 public class EmpVO {
 	@Min(value=207, message="사원번호는 207 이상")
-	@NotNull(message="Primary Key는 필수입니다.")
 	private int employeeId;
 	@Pattern(regexp="[\\w가-힣]+", message="이름 입력")
 	@Size(max=10, message="데이터 베이스 제약조건 위배(20byte)")
 	private String firstName;
 	@Pattern(regexp="[\\w가-힣]+", message="성 입력")
-	@NotNull
 	@Size(max=12, message="데이터 베이스 제약조건 위배(25byte)")
 	private String lastName;
 	@Pattern(regexp="[a-zA-Z0-9]*@[a-zA-Z]*\\..*", message="이메일 양식에 맞춰주세요")
-	@NotNull
 	private String email;
 	@Pattern(regexp="^[0][1][0-9](-|\\s)\\d{3,4}(-|\\s)\\d{4}$", message="핸드폰 전화번호 양식에 맞춰주세요")
 	private String phoneNumber;
 	@Past
-	@NotNull(message = "데이터 베이스 제약조건 위배(Null 불가)")
 	private java.sql.Date hireDate;
 	private String jobId;
 	@Digits(integer=6, fraction=2, message="잘못된 급여액(6자리 이상 불가)")
 	private double salary;
-	@DecimalMin(value="0.00", message="보너스율은 0 이상입니다.")
 	@DecimalMax(value="0.99", message="보너스율은 1 미만입니다.")
 	private double commissionPct;
 	private int managerId;
