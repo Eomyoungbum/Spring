@@ -49,20 +49,20 @@ public class FileService implements IFileService {
 	public void updateDirectory(int[] fileIds, String directoryName) {
 		for(int fileId : fileIds) {
 			HashMap<String, Object> map = new HashMap<>();
-			
+			map.put("fileId", fileId);
+			map.put("directoryName", directoryName);
+			fileRepository.updateDirectory(map);
 		}
 	}
 
 	@Override
 	public void deleteFile(int fileId) {
-		// TODO Auto-generated method stub
-
+		fileRepository.deleteFile(fileId);
 	}
 
 	@Override
 	public void updateFile(FileVO file) {
-		// TODO Auto-generated method stub
-
+		fileRepository.updateFile(file);
 	}
 
 }
