@@ -46,6 +46,11 @@ public class FileService implements IFileService {
 	}
 
 	@Override
+	public void deleteFile(int fileId) {
+		fileRepository.deleteFile(fileId);
+	}
+	
+	@Override
 	public void updateDirectory(int[] fileIds, String directoryName) {
 		for(int fileId : fileIds) {
 			HashMap<String, Object> map = new HashMap<>();
@@ -53,11 +58,6 @@ public class FileService implements IFileService {
 			map.put("directoryName", directoryName);
 			fileRepository.updateDirectory(map);
 		}
-	}
-
-	@Override
-	public void deleteFile(int fileId) {
-		fileRepository.deleteFile(fileId);
 	}
 
 	@Override

@@ -97,7 +97,6 @@ public class FileRepository implements IFileRepository {
 				+ "from files "
 				+ "where file_id=?";
 		return jdbctemplate.queryForObject(sql, new RowMapper<FileVO>() {
-
 			@Override
 			public FileVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 				FileVO file = new FileVO();
@@ -110,7 +109,6 @@ public class FileRepository implements IFileRepository {
 				file.setFileData(rs.getBytes("file_data"));
 				return file;
 			}
-		
 		}, fileId);
 	}
 
@@ -121,15 +119,15 @@ public class FileRepository implements IFileRepository {
 	}
 
 	@Override
-	public void updateDirectory(HashMap<String, Object> map) {
-		String sql = "update files set directory_name=? where file_id=?";
-		jdbctemplate.update(sql, map.get("directoryName"), map.get("fileId"));
-	}
-
-	@Override
 	public void deleteFile(int fileId) {
 		String sql = "delete from files where file_id=?";
 		jdbctemplate.update(sql, fileId);
+	}
+	
+	@Override
+	public void updateDirectory(HashMap<String, Object> map) {
+		String sql = "update files set directory_name=? where file_id=?";
+		jdbctemplate.update(sql, map.get("directoryName"), map.get("fileId"));
 	}
 
 	@Override

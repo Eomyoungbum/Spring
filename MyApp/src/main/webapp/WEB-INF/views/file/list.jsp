@@ -3,15 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>File List</title>
-<link href="<c:url value='/favicon.png'/>" rel="icon" type="image/png">
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="//code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
 <form action=updateDir method=post enctype="multipart/form-data" class="form-horizontal">
@@ -51,7 +49,7 @@
 		<td>${file.fileContentType}</td>
 		<td>${file.fileUploadDate}</td>
 		<td>
-			<a href='<c:url value="/file/delete/${file.fileId}" />' id="delete">삭제</a>
+			<a href='<c:url value="/file/delete/${file.fileId}" />' class="delete">삭제</a>
 		</td>
 		</tr>
 	</c:forEach>
@@ -67,7 +65,7 @@
 </form>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("#delete").click(function(){
+	$(".delete").click(function(){
 		if(confirm("이 작업은 되돌릴 수 없습니다. 파일을 삭제하시겠습니까?")){
 			return true;
 		}else{
