@@ -62,7 +62,7 @@ public class FileController {
 			@RequestParam(value="dir", required=false, defaultValue="/images")String dir,
 			Model model) {
 		model.addAttribute("fileList", fileService.getImageList(dir));
-		return "/file/gallery";
+		return "/file/list";
 	}
 	
 	@RequestMapping("/file/list")

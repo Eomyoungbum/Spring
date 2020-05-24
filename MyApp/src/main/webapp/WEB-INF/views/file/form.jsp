@@ -7,7 +7,7 @@
 <title>File Upload</title>
 </head>
 <body>
-<form action="/file/new" method=post enctype="multipart/form-data">
+<form action="new" method=post enctype="multipart/form-data">
 	<select name="dir">
 		<option value="/">/
 		<option value="/images">이미지
