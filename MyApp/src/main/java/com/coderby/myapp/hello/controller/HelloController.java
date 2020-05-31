@@ -10,9 +10,11 @@ import com.coderby.myapp.hello.service.IHelloService;
 @Controller
 public class HelloController {
 
-	@Autowired
-	@Qualifier("helloService")
 	IHelloService helloService = new HelloService();
+	
+	public void setHelloService(IHelloService helloService) {
+		this.helloService = helloService;
+	}
 	
 	public void hello(String name) {
 		System.out.println("HelloController : "+helloService.sayHello(name));
