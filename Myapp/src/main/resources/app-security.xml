@@ -12,12 +12,14 @@
 username-parameter="id" password-parameter="pw" 
 login-processing-url="/loginCheck"
 default-target-url="/loginCheck"
-authentication-failure-url="/loginCheck"/>
-<security:logout logout-url="/logout"/>
+authentication-failure-url="/loginCheck"
+/>
+<security:logout logout-url="/logout"
+/>
 <security:access-denied-handler error-page="/error/autherror" />
 <security:csrf disabled="true"/> 
 <security:session-management>
-<security:concurrency-control max-sessions="1" expired-url="/error/loginDuplicate"/>
+<security:concurrency-control max-sessions="1" expired-url="/loginDuplicate"/>
 </security:session-management>
 </security:http> 
 <bean id="memberAuthenticationProvider" class="com.coderby.myapp.member.auth.MemberAuthenticationProvider"/>

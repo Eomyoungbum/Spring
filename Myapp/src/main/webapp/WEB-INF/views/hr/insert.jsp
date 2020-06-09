@@ -71,6 +71,10 @@
 		</c:forEach>
 	</select></td>
 </tr>
+<tr>
+	<th colspan=2><input type=submit value="수정">
+	<input type=reset value="취소"></th>
+</tr>
 </table>
 </form>
 </c:when>

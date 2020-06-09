@@ -15,5 +15,8 @@
 3. <a href="list">전체 사원 목록</a><br>
 4. <a href="insert">신규 사원 정보 입력</a><br>
 5. <a href="getMaxSalary">부서별 최고 급여자 조회</a>
+${startTime}
+${auth}
+${userId}
 </body>
 </html>

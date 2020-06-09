@@ -4,9 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
@@ -14,8 +12,6 @@
 <context:component-scan base-package="com.coderby.myapp"/>
 <aop:aspectj-autoproxy/>
 
-<bean id="bcryptPasswordEncoder" 
-class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
 <bean id="propertyConfigurer" class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
 	<constructor-arg ref="configurationEncryptor" />
@@ -53,5 +49,5 @@ class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 </bean>
 
 <tx:annotation-driven transaction-manager="txManager"/>
-<security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+
 </beans>
