@@ -13,14 +13,12 @@ public class LoginInterceptor implements HandlerInterceptor{
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
-		System.out.println(session.getAttribute("url"));
 		String contextName = request.getContextPath();
 		String url = request.getRequestURI().replaceFirst(contextName, "");
 		String param = request.getQueryString();
 		if(!url.contains("login") && !url.contains("logout")) {
 			session.setAttribute("url", url);
 			session.setAttribute("param", param);
-			System.out.println(session.getAttribute("url"));
 		}
 		return true;
 	}

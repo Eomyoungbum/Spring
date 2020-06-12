@@ -6,6 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +31,7 @@ import com.coderby.myapp.util.EmpValidator;
 
 @Controller
 public class EmpController {
-
+	
 	@Autowired
 	IEmpService empService;
 	
@@ -42,7 +45,7 @@ public class EmpController {
 		}
 		return "hr/count";
 	}
-
+	
 	@RequestMapping(value="/hr/list")
 	public void getAllEmployees(Model model) {
 		List<EmpVO> empList = empService.getEmpList();

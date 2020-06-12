@@ -4,8 +4,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.coderby.myapp.member.model.MemberVO;
@@ -14,7 +17,7 @@ import com.coderby.myapp.member.model.MemberVO;
 public class MemberRepository implements IMemberRepository {
 
 	@Autowired
-	JdbcTemplate jt;
+	MyJdbcTemplate jt;
 	
 	@Override
 	public void insertMember(MemberVO mem) {
@@ -28,7 +31,7 @@ public class MemberRepository implements IMemberRepository {
 		String sql = "insert into authorities values(?,?)";
 		jt.update(sql,userId,"ROLE_USER");
 	}
-	
+
 	@Override
 	public MemberVO getMember(String userId) {
 		String sql = "select m.userid, name, password, email, address,"
@@ -36,18 +39,22 @@ public class MemberRepository implements IMemberRepository {
 				+ "join authorities au "
 				+ "on m.userid=au.userid "
 				+ "where m.userid=?";
-		return jt.queryForObject(sql, new RowMapper<MemberVO>() {
+		return jt.query(sql, new ResultSetExtractor<MemberVO>() {
 			@Override
-			public MemberVO mapRow(ResultSet rs, int rowNum) throws SQLException {
-				MemberVO mem = new MemberVO();
-				mem.setUserId(rs.getString("userid"));
-				mem.setName(rs.getString("name"));
-				mem.setPassword(rs.getString("password"));
-				mem.setEmail(rs.getString("email"));
-				mem.setAddress(rs.getString("address"));
-				mem.setEnabled(rs.getInt("enabled"));
-				mem.setAuth(rs.getString("authority"));
-				return mem;
+			public MemberVO extractData(ResultSet rs) throws SQLException {
+				if(rs.next()) {
+					MemberVO mem = new MemberVO();
+					mem.setUserId(rs.getString("userid"));
+					mem.setName(rs.getString("name"));
+					mem.setPassword(rs.getString("password"));
+					mem.setEmail(rs.getString("email"));
+					mem.setAddress(rs.getString("address"));
+					mem.setEnabled(rs.getInt("enabled"));
+					mem.setAuth(rs.getString("authority"));
+					return mem;
+				}else {
+					return null;
+				}
 			}
 		},userId);
 	}
@@ -55,7 +62,7 @@ public class MemberRepository implements IMemberRepository {
 	@Override
 	public String getPassword(String userId) {
 		String sql = "select password from member where userid=?";
-		return jt.queryForObject(sql, String.class, userId);
+		return jt.queryForNullableObject(sql, String.class,userId);
 	}
 
 }

@@ -15,6 +15,7 @@
 <h3>정말 삭제하시겠습니까?</h3>
 <form action="delete" method=post>
 <input type=hidden name=empId value="${emp.employeeId}">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 <input type=submit value="삭제">
 <input type="button" value="취소" onclick="history.back(-1);">
 </form>

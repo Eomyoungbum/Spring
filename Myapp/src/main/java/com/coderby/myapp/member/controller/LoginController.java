@@ -24,27 +24,21 @@ public class LoginController {
 	@Autowired
 	IMemberService memberService;
 	
-	@GetMapping("/login")
-	public String login(Model model) {
-		return "login";
-	}
-	
 	@RequestMapping("/loginCheck")
-	public String loginCheck(@AuthenticationPrincipal Object mem, Model model, HttpSession session) {
-		if(mem.equals("anonymousUser")) {
+	public String loginCheck(Model model, HttpSession session) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if(!(authentication.getDetails() instanceof MemberVO)) {
 			model.addAttribute("message","아이디 또는 비밀번호가 다릅니다.");
 			return "login";
 		}else {
-			MemberVO member = memberService.getMember((String)mem);
+			MemberVO member = (MemberVO)authentication.getDetails();
 			session.setAttribute("userId", member.getUserId());
 			session.setAttribute("auth", member.getAuth());
 			session.setAttribute("startTime", LocalDateTime.now());
-			String url = (String)session.getAttribute("url");
-			System.out.println(url);
-			if(url==null) {
-				url = "hr/index";
+			String url = "/";
+			if(session.getAttribute("url")!=null) {
+				url = (String)session.getAttribute("url");
 			}
-			session.removeAttribute("url");
 			return "redirect:/"+url;
 		}
 	}

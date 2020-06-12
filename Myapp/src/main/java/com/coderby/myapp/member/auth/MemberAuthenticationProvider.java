@@ -1,15 +1,11 @@
 package com.coderby.myapp.member.auth;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.coderby.myapp.member.model.MemberVO;
@@ -21,22 +17,29 @@ public class MemberAuthenticationProvider implements AuthenticationProvider{
 	@Autowired
 	IMemberService memberService;
 	
+	@Autowired
+	BCryptPasswordEncoder bpe;
+	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
+		if(authentication.getPrincipal()==null) {
+			return null;
+		}
+		if(authentication.getCredentials()==null) {
+			return null;
+		}
 		String userId = (String)authentication.getPrincipal();
 		String password = (String)authentication.getCredentials();
-		MemberVO member = null;
-		if(password==null||password.equals("")) {
+		String dbpw = memberService.getPassword(userId);
+		if(dbpw==null) {
 			return null;
 		}
-		if(password.equals(memberService.getPassword(userId))) {
-			member = memberService.getMember(userId);
-			roles.add(new SimpleGrantedAuthority(member.getAuth()));
-		}else {
+		if(!bpe.matches(password, dbpw)){
 			return null;
 		}
-		UsernamePasswordAuthenticationToken result = new UsernamePasswordAuthenticationToken(userId, password,roles);
+		MemberVO member = memberService.getMember(userId);
+		UsernamePasswordAuthenticationToken result = 
+				new UsernamePasswordAuthenticationToken(userId, password,member.getAuthorities());
 		result.setDetails(member);
 		return result;
 	}
