@@ -99,6 +99,7 @@ public class EmpController {
 		return "redirect:/hr/"+emp.getEmployeeId();
 	}
 
+	@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
 	@GetMapping(value="/hr/delete")
 	public String deleteEmp(int empId, Model model) {
 		model.addAttribute("emp",empService.getEmpInfo(empId));
@@ -106,6 +107,7 @@ public class EmpController {
 		return "hr/delete";
 	}
 	
+	@PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
 	@PostMapping(value="/hr/delete")
 	public String deleteEmp(Model model, int empId) {
 		empService.deleteEmp(empId);

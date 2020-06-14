@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 public class FileVO {
 
 	private int fileId;
+	private String userId;
 	private String directoryName;
 	private String fileName;
 	private long fileSize;
@@ -14,6 +15,12 @@ public class FileVO {
 	
 	public int getFileId() {
 		return fileId;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public void setFileId(int fileId) {
 		this.fileId = fileId;

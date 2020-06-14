@@ -1,5 +1,7 @@
 package com.coderby.myapp.member.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,38 @@ public class MemberService implements IMemberService{
 	
 	public String getPassword(String userId) {
 		return memRepository.getPassword(userId);
+	}
+
+	@Override
+	public List<MemberVO> getMemberList(int page, String word) {
+		return memRepository.getMemberList(page, word);
+	}
+
+	@Override
+	public void updateMember(MemberVO mem) {
+		memRepository.updateMember(mem);
+	}
+
+	@Override
+	public void updateMemberEnable(String userId) {
+		memRepository.updateMemberEnable(userId);
+	}
+
+	@Override
+	public void updateMemberAuth(String auth, String userId) {
+		memRepository.updateMemberAuth(auth, userId);
+	}
+
+	@Override
+	@Transactional("txManager")
+	public void deleteMember(String userId) {
+		memRepository.deleteAuthor(userId);
+		memRepository.deleteMember(userId);
+	}
+
+	@Override
+	public Integer getMemberCount(String word) {
+		return memRepository.getMemberCount(word);
 	}
 	
 }

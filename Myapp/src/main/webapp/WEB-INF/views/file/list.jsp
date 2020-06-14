@@ -12,12 +12,13 @@
 <script src="//code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-<form action=updateDir method=post enctype="multipart/form-data" class="form-horizontal">
+<form action=updateDir method=post enctype="multipart/form-data" class="form-horizontal" onsubmit="addId">
 <table border="1">
 <tr>
 	<th>Id</th>
 	<td>경로</td>
 	<td>그림</td>
+	<td>작성자</td>
 	<td>파일명</td>
 	<td>크기</td>
 	<td>유형</td>
@@ -28,7 +29,8 @@
 <c:set var="len" value="${fn:length(file.fileName)}"/>
 <c:set var="fileType" value="${fn:toUpperCase(fn:substring(file.fileName, len-4, len))}" />
 <tr>
-	<td><input type=checkbox name=fileIds value="${file.fileId}">${file.fileId}</td>
+	<td><input type=checkbox name=fileIds value="${file.fileId}">${file.fileId}
+		<input type=hidden name=userId value="${file.userId}"></td>
 	<td>${file.directoryName}</td>
 			<td>
 			<c:choose>
@@ -40,6 +42,7 @@
 			</c:otherwise>
 			</c:choose>
 			</td>
+			<td>${file.userId}</td>
 			<td>
 			<a href='<c:url value="/pds/${file.fileId}" />'>${file.fileName}</a><br>
 			</td>
@@ -49,7 +52,7 @@
 		<td>${file.fileContentType}</td>
 		<td>${file.fileUploadDate}</td>
 		<td>
-			<a href='<c:url value="/file/delete/${file.fileId}" />' class="delete">삭제</a>
+			<a href='<c:url value="/file/delete/${file.fileId}?userId=${file.userId}" />' class="delete">삭제</a>
 		</td>
 		</tr>
 	</c:forEach>
@@ -61,18 +64,28 @@
 	<option value="/spring">스프링
 	<option value="/commons">공통
 </select>로 <input type=submit value="이동"><p>
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 <a href='<c:url value="/file/new" />'>업로드</a>
 </form>
 <script type="text/javascript">
 $(document).ready(function(){
 	$(".delete").click(function(){
 		if(confirm("이 작업은 되돌릴 수 없습니다. 파일을 삭제하시겠습니까?")){
+			
 			return true;
 		}else{
 			return false;
 		}
 	})
 });
+function addId(dom){
+	for(int i=0; i<dom.elements['fileId'].length; i++){
+		if(dom.elements['fileId'].checked==false){
+			dom.elements['userId'].disabled==true;
+		}
+	}
+	return true;
+};
 </script>
 </body>
 </html>

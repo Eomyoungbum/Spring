@@ -4,15 +4,16 @@
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<bean id="loginFailHandler" class="com.coderby.myapp.member.auth.LoginFailHandler">
+</bean>
 <security:http pattern="/resources/**" security="none" />
 <security:http>
-<security:intercept-url pattern="/hr/delete" access="hasRole('ROLE_ADMIN')" /> 
-<security:intercept-url pattern="/hr/*" access="hasAnyRole('ROLE_USER,ROLE_ADMIN')" />
 <security:form-login login-page="/login" 
 username-parameter="id" password-parameter="pw" 
 login-processing-url="/loginCheck"
 default-target-url="/loginCheck"
-authentication-failure-url="/loginCheck"/>
+authentication-failure-handler-ref="loginFailHandler"
+/>
 <security:logout logout-url="/logout"/>
 <security:access-denied-handler error-page="/error/autherror" />
 <security:session-management>
@@ -21,6 +22,11 @@ authentication-failure-url="/loginCheck"/>
 </security:http> 
 <bean id="memberAuthenticationProvider" class="com.coderby.myapp.member.auth.MemberAuthenticationProvider"/>
 <security:authentication-manager> 
+<security:authentication-provider>
+	<security:user-service>
+		<security:user name="master2" password="master2" authorities="ROLE_MASTER"/>
+	</security:user-service>
+</security:authentication-provider>
 <security:authentication-provider ref="memberAuthenticationProvider" /> 
 </security:authentication-manager>
 </beans>

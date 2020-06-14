@@ -25,6 +25,7 @@ public class FileRepository implements IFileRepository {
 		public FileVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 			FileVO file = new FileVO();
 			file.setFileId(rs.getInt("file_Id"));
+			file.setUserId(rs.getString("userid"));
 			file.setDirectoryName(rs.getString("directory_name"));
 			file.setFileName(rs.getString("file_name"));
 			file.setFileSize(rs.getLong("file_size"));
@@ -42,15 +43,15 @@ public class FileRepository implements IFileRepository {
 
 	@Override
 	public void uploadFile(FileVO file) {
-		String sql = "insert into files (file_id, directory_name, file_name, file_size,"
-				+ "file_content_type, file_upload_date, file_data) values(?,?,?,?,?,sysdate,?)";
-		jdbctemplate.update(sql,file.getFileId(),file.getDirectoryName(),file.getFileName(),
+		String sql = "insert into files (file_id, userid, directory_name, file_name, file_size,"
+				+ "file_content_type, file_upload_date, file_data) values(?,?,?,?,?,?,sysdate,?)";
+		jdbctemplate.update(sql,file.getFileId(), file.getUserId(), file.getDirectoryName(),file.getFileName(),
 				file.getFileSize(),file.getFileContentType(),file.getFileData());
 	}
 
 	@Override
 	public List<FileVO> getFileList(String directoryName) {
-		String sql = "select file_id,directory_name,file_name,"
+		String sql = "select file_id, userid, directory_name,file_name,"
 				+ "file_size,file_content_type,file_upload_date "
 				+ "from files "
 				+ "where directory_name=? "
@@ -60,7 +61,7 @@ public class FileRepository implements IFileRepository {
 
 	@Override
 	public List<FileVO> getAllFileList() {
-		String sql = "select file_id, directory_name, file_name,"
+		String sql = "select file_id, userid, directory_name, file_name,"
 				+ "file_size, file_content_type, file_upload_date "
 				+ "from files "
 				+ "order by file_upload_date desc";
@@ -69,7 +70,7 @@ public class FileRepository implements IFileRepository {
 
 	@Override
 	public List<FileVO> getImageList(String directoryName) {
-		String sql = "select file_id, directory_name, file_name,"
+		String sql = "select file_id, userid, directory_name, file_name,"
 				+ "file_size, file_content_type, file_upload_date, file_data "
 				+ "from files "
 				+ "where directory_name=? "
@@ -80,6 +81,7 @@ public class FileRepository implements IFileRepository {
 			public FileVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 				FileVO file = new FileVO();
 				file.setFileId(rs.getInt("file_Id"));
+				file.setUserId(rs.getString("userid"));
 				file.setDirectoryName(rs.getString("directory_name"));
 				file.setFileName(rs.getString("file_name"));
 				file.setFileSize(rs.getLong("file_size"));
@@ -94,7 +96,7 @@ public class FileRepository implements IFileRepository {
 
 	@Override
 	public FileVO getFile(int fileId) {
-		String sql = "select file_id, directory_name, file_name,"
+		String sql = "select file_id, userid,directory_name, file_name,"
 				+ "file_size, file_content_type, file_upload_date, file_data "
 				+ "from files "
 				+ "where file_id=?";
@@ -102,6 +104,7 @@ public class FileRepository implements IFileRepository {
 			@Override
 			public FileVO mapRow(ResultSet rs, int rowNum) throws SQLException {
 				FileVO file = new FileVO();
+				file.setUserId(rs.getString("userid"));
 				file.setFileId(rs.getInt("file_Id"));
 				file.setDirectoryName(rs.getString("directory_name"));
 				file.setFileName(rs.getString("file_name"));

@@ -13,14 +13,15 @@ ${message}
 <form action="loginCheck" method="post">
 아이디 : <input type=text name=id><br>
 비밀번호 : <input type=password name=pw><br>
-<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+<sec:csrfInput/>
 <input type=submit value=로그인>
 </form>
 </sec:authorize>
 <sec:authorize access="isAuthenticated()">
+<sec:authentication property="principal"/>님 안녕하세요.<br>
 <a href="<c:url value="/hr/index" />">메인페이지</a>
 <form action="${pageContext.request.contextPath}/logout" method="post">
-<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+<sec:csrfInput/>
 <input type=submit value="로그아웃">
 </form>
 </sec:authorize>

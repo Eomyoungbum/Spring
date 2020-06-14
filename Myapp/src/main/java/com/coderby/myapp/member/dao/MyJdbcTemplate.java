@@ -1,5 +1,6 @@
 package com.coderby.myapp.member.dao;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -34,8 +35,11 @@ public class MyJdbcTemplate extends JdbcTemplate {
     	return this.queryForNullableObject(sql, new RowMapper<T>() {
 			@Override
 			public T mapRow(ResultSet rs, int rowNum) throws SQLException {
-				T result = (T)rs.getObject(1);
-				return result;
+				Object result = rs.getObject(1);
+				if(result instanceof BigDecimal) {
+					return (T)Integer.valueOf(result.toString());
+				}
+				return (T)result;
 			}
         }, args);
     }

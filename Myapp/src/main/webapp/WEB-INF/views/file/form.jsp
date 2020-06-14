@@ -16,6 +16,7 @@
 		<option value="/general">공통
 	</select>
 	<input type=file name=file>
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	<input type=submit name=save>
 	<input type=reset name=cancel>
 </form>
