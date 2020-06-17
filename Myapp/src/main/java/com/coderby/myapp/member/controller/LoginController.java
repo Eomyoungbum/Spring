@@ -54,10 +54,10 @@ public class LoginController {
 		}
 	}
 
-	@PostMapping("/logout")
+	@RequestMapping("/logout")
 	public String logout(Model model, HttpSession session) {
 		session.invalidate();
-		return "redirect:/login";
+		return "redirect:/";
 	}
 
 	@Autowired

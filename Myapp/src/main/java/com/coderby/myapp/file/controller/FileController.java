@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.coderby.myapp.file.model.FileVO;
 import com.coderby.myapp.file.service.IFileService;
+import com.coderby.myapp.member.model.MemberVO;
 
 @Controller
 @PreAuthorize("isAuthenticated() and hasAnyRole('ROLE_USER','ROLE_ADMIN','ROLE_MASTER')")
@@ -58,8 +59,9 @@ public class FileController {
 			@RequestParam MultipartFile file, @AuthenticationPrincipal Object principal, RedirectAttributes redirectAttrs) {
 		try {
 			if(file!=null && !file.isEmpty()) {
+				MemberVO member = (MemberVO)principal;
 				FileVO newFile = new FileVO();
-				newFile.setUserId((String)principal);
+				newFile.setUserId(member.getUserId());
 				newFile.setDirectoryName(dir);
 				newFile.setFileName(file.getOriginalFilename());
 				newFile.setFileSize(file.getSize());
@@ -108,7 +110,7 @@ public class FileController {
 				|| auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MASTER"))) {
 			
 		}else {
-				if(!(auth.getPrincipal().equals(userId))) {
+				if(!(auth.getName().equals(userId))) {
 					throw new RuntimeException("파일 삭제는 관리자 또는 업로더만 가능합니다.");
 				}
 		}
@@ -118,12 +120,16 @@ public class FileController {
 
 	@RequestMapping("/file/updateDir")
 	public String updateDirectory(int[] fileIds, String[] userId, String directoryName) {
+		System.out.println(Arrays.toString(fileIds));
+		System.out.println(Arrays.toString(userId));
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+		System.out.println(auth.getName());
+		if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
+				|| auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MASTER"))) {
 			
 		}else {
 			for(String fileUserId : userId) {
-				if(!(auth.getPrincipal().equals(fileUserId))) {
+				if(!(auth.getName().equals(fileUserId))) {
 					throw new RuntimeException("파일 수정은 관리자 또는 업로더만 가능합니다.");
 				}
 			}

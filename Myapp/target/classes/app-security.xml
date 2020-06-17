@@ -14,7 +14,7 @@ login-processing-url="/loginCheck"
 default-target-url="/loginCheck"
 authentication-failure-handler-ref="loginFailHandler"
 />
-<security:logout logout-url="/logout"/>
+<security:logout logout-success-url="/logout"/>
 <security:access-denied-handler error-page="/error/autherror" />
 <security:session-management>
 <security:concurrency-control max-sessions="1" expired-url="/error/loginDuplicate"/>

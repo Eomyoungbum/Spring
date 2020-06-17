@@ -42,7 +42,7 @@ public class MemberController {
 		return "redirect:/login";
 	}
 	
-	@PreAuthorize("isAuthenticated() and #userId==principal or hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
+	@PreAuthorize("isAuthenticated() and #userId==principal.username or hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
 	@GetMapping("/update/{userId}")
 	public String update(Model model, @PathVariable String userId) {
 		MemberVO mem = memberService.getMember(userId);
@@ -51,7 +51,7 @@ public class MemberController {
 		return "member/insert";
 	}
 	
-	@PreAuthorize("isAuthenticated() and #userId==principal or hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
+	@PreAuthorize("isAuthenticated() and #userId==principal.username or hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
 	@PostMapping("/update")
 	public String update(MemberVO mem, Authentication auth) {
 		if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
@@ -68,7 +68,7 @@ public class MemberController {
 		return "redirect:/member/"+mem.getUserId();
 	}
 	
-	@PreAuthorize("isAuthenticated() and #userId==principal or hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
+	@PreAuthorize("isAuthenticated() and #userId==principal.username or hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
 	@GetMapping("/{userId}")
 	public String getMember(@PathVariable String userId, Model model) {
 		model.addAttribute("mem",memberService.getMember(userId));
@@ -94,7 +94,7 @@ public class MemberController {
 	}
 	
 	@PostMapping("/delete")
-	@PreAuthorize("isAuthenticated() and #userId==principal or hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
+	@PreAuthorize("isAuthenticated() and #userId==principal.username or hasAnyRole('ROLE_ADMIN','ROLE_MASTER')")
 	public String delete(Authentication auth, String userId, String password) {
 		if(auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))
 				|| auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_MASTER"))) {

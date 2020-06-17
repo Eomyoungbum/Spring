@@ -12,7 +12,7 @@
 <script src="//code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
-<form action=updateDir method=post enctype="multipart/form-data" class="form-horizontal" onsubmit="addId">
+<form action=updateDir method=post enctype="multipart/form-data" class="form-horizontal" onsubmit="addId();">
 <table border="1">
 <tr>
 	<th>Id</th>
@@ -71,18 +71,18 @@
 $(document).ready(function(){
 	$(".delete").click(function(){
 		if(confirm("이 작업은 되돌릴 수 없습니다. 파일을 삭제하시겠습니까?")){
-			
 			return true;
 		}else{
 			return false;
 		}
 	})
 });
-function addId(dom){
-	for(int i=0; i<dom.elements['fileId'].length; i++){
-		if(dom.elements['fileId'].checked==false){
-			dom.elements['userId'].disabled==true;
-		}
+function addId(){
+	let check_length = document.getElementsByName("fileIds").length;
+	for(var i=0; i<check_length; i++){
+			if(document.getElementsByName("fileIds")[i].checked == false){
+				document.getElementsByName("userId")[i].disabled = "disabled";
+			}
 	}
 	return true;
 };
