@@ -114,12 +114,12 @@ public class EmpController {
 		return "redirect:/hr/list";
 	}
 	
-	@ExceptionHandler(RuntimeException.class)
-	public String runtimeException(HttpServletRequest request, Exception ex, Model model) {
-		model.addAttribute("url", request.getRequestURI());
-		model.addAttribute("exception", ex);
-		return "error/runtime";
-	}
+//	@ExceptionHandler(RuntimeException.class)
+//	public String runtimeException(HttpServletRequest request, Exception ex, Model model) {
+//		model.addAttribute("url", request.getRequestURI());
+//		model.addAttribute("exception", ex);
+//		return "error/runtime";
+//	}
 	
 	@RequestMapping("/hr/index")
 	public String getMain() {
