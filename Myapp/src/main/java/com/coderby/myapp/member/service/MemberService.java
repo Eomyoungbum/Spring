@@ -60,5 +60,10 @@ public class MemberService implements IMemberService{
 	public Integer getMemberCount(String word) {
 		return memRepository.getMemberCount(word);
 	}
+
+	@Override
+	public boolean checkId(String userId) {
+		return memRepository.checkId(userId);
+	}
 	
 }

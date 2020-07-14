@@ -15,5 +15,5 @@ public interface IMemberService {
 	void updateMemberAuth(String auth, String userId);
 	void deleteMember(String userId);
 	Integer getMemberCount(String word);
-	
+	boolean checkId(String userId);
 }

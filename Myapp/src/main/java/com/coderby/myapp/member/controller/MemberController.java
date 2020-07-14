@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.coderby.myapp.member.model.MemberVO;
@@ -117,6 +118,12 @@ public class MemberController {
 		memberService.updateMemberAuth(auth, userId);
 		redi.addFlashAttribute("authMessage","권한이 변경되었습니다.");
 		return "redirect:/member/"+userId;
+	}
+	
+	@PostMapping("/insert/idCheck")
+	@ResponseBody
+	public boolean idCheck(String userId) {
+		return memberService.checkId(userId);
 	}
 	
 }

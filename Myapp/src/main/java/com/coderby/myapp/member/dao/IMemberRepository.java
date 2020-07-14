@@ -17,5 +17,5 @@ public interface IMemberRepository {
 	void deleteMember(String userId);
 	void deleteAuthor(String userId);
 	Integer getMemberCount(String word);
-	
+	boolean checkId(String userId);
 }
