@@ -171,7 +171,7 @@ public class MemberRepository implements IMemberRepository {
 	public boolean checkId(String userId) {
 		String sql = "select count(*) from member where userid=?";
 		Integer a = jt.queryForNullableObject(sql, Integer.class, userId);
-		return a==null ? true : false;
+		return a==0 ? true : false;
 	}
 
 	

@@ -19,6 +19,9 @@
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
 	<mvc:view-controller path="/" view-name="home"/>
+	<mvc:view-controller path="/json" view-name="json"/>
+	<mvc:view-controller path="/jsonex" view-name="jsonExample"/>
+	<mvc:view-controller path="/moka" view-name="mokaJson"/>
 	<mvc:view-controller path="/login" view-name="login"/>
 	<mvc:view-controller path="/error/autherror" view-name="error/autherror"/>
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
@@ -43,13 +46,6 @@
 			</beans:list>
 		</beans:property>
 	</beans:bean>
-
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
-			<beans:bean class="com.coderby.myapp.common.interceptor.LoginInterceptor"/>
-		</mvc:interceptor>
-	</mvc:interceptors>
 	<context:component-scan
 		base-package="com.coderby.myapp.hr.controller" />
 	<context:component-scan
