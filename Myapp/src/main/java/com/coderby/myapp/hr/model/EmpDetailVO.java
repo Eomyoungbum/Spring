@@ -2,9 +2,14 @@ package com.coderby.myapp.hr.model;
 
 public class EmpDetailVO extends EmpVO{
 
+	public EmpDetailVO() {
+		
+	}
+	
 	private String jobTitle;
 	private String managerName;
 	private String departmentName;
+	
 	public String getJobTitle() {
 		return jobTitle;
 	}

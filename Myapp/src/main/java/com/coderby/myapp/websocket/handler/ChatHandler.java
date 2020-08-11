@@ -4,16 +4,17 @@ import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.coderby.myapp.HomeController;
 
-public class ChatHandler extends TextWebSocketHandler {
+public class ChatHandler extends TextWebSocketHandler{
 
 	private List<WebSocketSession> sessionList = new ArrayList<>();
 
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ChatHandler.class);
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -36,8 +37,5 @@ public class ChatHandler extends TextWebSocketHandler {
 		logger.info("{} 연결 끊음",session.getId());
 		logger.info("채팅방 퇴장 : {}",session.getId());
 	}
-	
-	
-	
-	
+
 }

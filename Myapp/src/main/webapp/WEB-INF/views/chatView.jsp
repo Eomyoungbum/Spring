@@ -31,7 +31,7 @@ $(function(){
 				},1000);
 			};
 		}else{
-			$("#chatroom").text($("#chatroom").text()+"웹 소켓이 이미 실행중입니다.");
+			$("#chatroom").html($("#chatroom").text()+"<br>웹 소켓이 이미 실행중입니다.");
 		}
 	});
 	$("#send").on("click",function(){
@@ -41,9 +41,7 @@ $(function(){
 			ws.send($("#inputchat").val());
 			$("#inputchat").val("");
 			ws.onmessage = function(event){
-				var message = $("#chatroom").text().replace(/\n/g,'<br>');
-				message += ("\n"+event.data);
-				$("#chatroom").text(message);
+					$("#chatroom").html($("#chatroom").html().replace(/\n/g,'<br>')+"<br>"+event.data);
 			};
 		}
 	});
@@ -52,7 +50,7 @@ $(function(){
 			alert("웹 소켓이 연결되지 않았습니다.");
 		}else {
 			ws.close();
-			ws.onclose = function(event){
+			ws.onclose = function(){
 				$("#chatroom").text("채팅이 종료됩니다.");
 				$("#open").show();
 			}

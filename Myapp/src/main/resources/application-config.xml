@@ -5,7 +5,9 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
@@ -48,6 +50,11 @@ class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 		<property name="dataSource" ref="dataSource"/>
 </bean>
 
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="dataSource" />
+	<property name="mapperLocations" value="classpath:/com/coderby/myapp/**/*.xml" />
+</bean>
+
 <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	<property name="dataSource" ref="dataSource"/>
 </bean>
@@ -57,7 +64,8 @@ class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 			<value>50000000</value>
 		</property>
 </bean>
-
+<bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
+<mybatis-spring:scan base-package="com.coderby.myapp.hr.dao" />
 <tx:annotation-driven transaction-manager="txManager"/>
 <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 </beans>

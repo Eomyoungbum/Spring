@@ -52,5 +52,7 @@
 		base-package="com.coderby.myapp.file.controller" />
 	<context:component-scan
 		base-package="com.coderby.myapp.member.controller" />
+	<context:component-scan
+		base-package="com.coderby.myapp.websocket.controller" />
 <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 </beans:beans>

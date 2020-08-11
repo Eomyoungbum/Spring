@@ -98,6 +98,10 @@ public class EmpVO {
 		this.departmentId = departmentId;
 	}
 	
+	public EmpVO() {
+		
+	}
+	
 	@Override
 	public String toString() {
 		return "EmpVO [employeeId=" + employeeId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="

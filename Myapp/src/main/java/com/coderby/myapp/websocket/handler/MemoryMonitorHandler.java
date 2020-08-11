@@ -23,29 +23,12 @@ public class MemoryMonitorHandler extends TextWebSocketHandler implements Initia
 		sessionSet.add(session);
 		System.out.println("세션 추가");
 	}
-
-	@Override
-	public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-		super.handleMessage(session, message);
-		System.out.println("메세지 수신 : "+message.toString());
-	}
-
-	@Override
-	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-		super.handleTransportError(session, exception);
-	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		super.afterConnectionClosed(session, status);
 		sessionSet.remove(session);
 		System.out.println("세션 제거");
-	}
-
-	@Override
-	public boolean supportsPartialMessages() {
-		System.out.println("메서드 실행됨");
-		return super.supportsPartialMessages();
 	}
 
 	@Override

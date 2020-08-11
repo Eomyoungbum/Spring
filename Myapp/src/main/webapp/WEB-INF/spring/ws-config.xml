@@ -19,4 +19,10 @@
 </websocket:handlers>
 <bean id="chatHandler" class="com.coderby.myapp.websocket.handler.ChatHandler"/>
 <mvc:view-controller path="/websocket/chat" view-name="chatView" />
+<mvc:view-controller path="/multichat/new" view-name="multichat/new" />
+<websocket:handlers>
+	<websocket:mapping handler="multiChatRoomHandler" path="multichat/chat.do"/>
+	<websocket:sockjs/>
+</websocket:handlers>
+<bean id="multiChatRoomHandler" class="com.coderby.myapp.websocket.handler.MultiChatRoomHandler"/>
 </beans>
